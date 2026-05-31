@@ -7,7 +7,7 @@ import fr.rawz06.rslfrancobot.engine.domain.entities.SettingsFile;
 import fr.rawz06.rslfrancobot.engine.domain.ports.RandomizerApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +22,7 @@ import java.util.Map;
  * Active only in the 'prod' profile.
  */
 @Component
-@Primary
+@ConditionalOnProperty(name = "app.randomizer.api.mode", havingValue = "http", matchIfMissing = true)
 public class HttpRandomizerApiAdapter implements RandomizerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRandomizerApiAdapter.class);

@@ -63,7 +63,7 @@ public class SeedService {
                  GenerateS8SeedUseCase.GenerationException | GenerateS9SeedUseCase.GenerationException |
                  GenerateAllsanitySeedUseCase.GenerationException | GenerateSaladSeedUseCase.GenerationException |
                  GenerateTotSeedUseCase.GenerationException | GenerateMixedSeedUseCase.GenerationException e) {
-            throw new SeedGenerationException("Error during seed generation", e);
+            throw new SeedGenerationException(e.getMessage(), e);
         }
     }
 

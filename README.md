@@ -239,7 +239,7 @@ mvn spring-boot:run
 # - Generate fake seed URLs
 ```
 
-To enable real API calls, uncomment `@Primary` in `HttpRandomizerApiAdapter.java`.
+To enable real API calls, set `app.randomizer.api.mode=http` in your `application.properties`.
 
 ## Contributing
 

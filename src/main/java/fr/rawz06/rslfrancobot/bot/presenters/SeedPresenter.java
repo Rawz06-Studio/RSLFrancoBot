@@ -35,12 +35,12 @@ public class SeedPresenter {
 
         // First row: Classic modes
         List<DiscordButton> classicRow = new ArrayList<>(List.of(
-                new DiscordButton("Franco (classic)", "seed_franco", DiscordButton.Style.DANGER),
-                new DiscordButton("S8", "seed_s8", DiscordButton.Style.PRIMARY),
-                new DiscordButton("S9", "seed_s9", DiscordButton.Style.SUCCESS)
+                new DiscordButton("Franco S6", "seed_franco", DiscordButton.Style.SUCCESS),
+                new DiscordButton("S8", "seed_s8", DiscordButton.Style.SECONDARY),
+                new DiscordButton("S9", "seed_s9", DiscordButton.Style.PRIMARY),
+                new DiscordButton("ToT", "seed_tot", DiscordButton.Style.SECONDARY),
+                new DiscordButton("Mixed Pool S5", "seed_mixed", DiscordButton.Style.SUCCESS)
         ));
-        classicRow.add(new DiscordButton("ToT", "seed_tot", DiscordButton.Style.SUCCESS));
-        classicRow.add(new DiscordButton("Mixed Pool S5", "seed_mixed", DiscordButton.Style.SUCCESS));
         message.addButtonRow(classicRow);
 
         // Second row: RSL modes
@@ -134,29 +134,29 @@ public class SeedPresenter {
      */
     public DiscordMessage presentFrancoSeedResult(SeedResult result, List<String> selectedOptions, String username) {
         StringBuilder content = new StringBuilder();
-        content.append("✅ Seed Franco generated successfully by ").append(username).append("!\n\n");
-        content.append("🔗 Link: ").append(result.seedUrl()).append("\n");
+        content.append("✅ **Franco seed generated successfully** for ").append(username).append("!\n\n");
+        content.append("🔗 **Link:** ").append(result.seedUrl()).append("\n");
 
         if (result.version() != null) {
-            content.append("📦 Version: ").append(result.version()).append("\n");
+            content.append("📦 **Version:** ").append(result.version()).append("\n");
         }
 
         if (result.spoilers() != null) {
-            content.append("👁️ Spoilers: ").append(result.spoilers() ? "Yes" : "No").append("\n");
+            content.append("👁️ **Spoilers:** ").append(result.spoilers() ? "Yes" : "No").append("\n");
         }
 
         // Add selected settings
-        content.append("\n🔧 **Settings used:**\n");
+        content.append("\n🔧 **Enabled options:**\n");
         if (selectedOptions == null || selectedOptions.isEmpty()) {
             content.append("_Base preset only (no specific options)_");
         } else {
             for (String optionId : selectedOptions) {
-                content.append("• ").append(optionId).append("\n");
+                content.append("• `").append(optionId).append("`\n");
             }
         }
 
         content.append("\n\n");
-        content.append("🤖Bot Version: ").append(appVersion.split("-")[0]);
+        content.append("🤖 Bot Version: ").append(appVersion.split("-")[0]);
 
         return new DiscordMessage(content.toString());
     }
@@ -165,7 +165,16 @@ public class SeedPresenter {
      * Presents an error message.
      */
     public DiscordMessage presentError(String errorMessage) {
-        return new DiscordMessage("❌ Error: " + errorMessage);
+        if (errorMessage.startsWith("Invalid settings: Incompatibility detected: ")) {
+            String cleanMessage = errorMessage
+                    .replace("Invalid settings: Incompatibility detected: ", "");
+            
+            return new DiscordMessage("⚠️ **Oops! Incompatible settings**\n\n" +
+                    "Some chosen options cannot work together:\n" +
+                    "❌ " + cleanMessage + "\n\n" +
+                    "Please try again by choosing compatible options.");
+        }
+        return new DiscordMessage("❌ **Error:** " + errorMessage);
     }
 
     /**
@@ -173,8 +182,9 @@ public class SeedPresenter {
      */
     public DiscordMessage presentFrancoOptions(List<Preset.PresetOption> options) {
         DiscordMessage message = new DiscordMessage(
-                "Choose the Franco options you want to enable:\n" +
-                "(You can select multiple options)"
+                "### 🇫🇷 Franco Mode - Options Selection\n" +
+                "Choose additional options to enable:\n" +
+                "_You can select multiple options in the menus below._"
         );
 
         // Split options into multiple menus if needed (max 25 per menu)
@@ -220,17 +230,17 @@ public class SeedPresenter {
      */
     public DiscordMessage presentSelectedOptions(List<String> selectedOptionIds) {
         StringBuilder content = new StringBuilder();
-        content.append("🔧 Selected Franco options:\n\n");
+        content.append("🔧 **Selected Franco options:**\n\n");
 
         if (selectedOptionIds == null || selectedOptionIds.isEmpty()) {
             content.append("_No specific options (base preset only)_\n");
         } else {
             for (String optionId : selectedOptionIds) {
-                content.append("✅ ").append(optionId).append("\n");
+                content.append("✅ `").append(optionId).append("`\n");
             }
         }
 
-        content.append("\n⏳ Generating seed...");
+        content.append("\n⏳ **Generating seed...**");
 
         return new DiscordMessage(content.toString());
     }

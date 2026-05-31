@@ -8,7 +8,7 @@ import fr.rawz06.rslfrancobot.engine.domain.entities.SettingsFile;
 import fr.rawz06.rslfrancobot.engine.domain.ports.RandomizerApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -21,7 +21,7 @@ import java.util.UUID;
  * Active only in 'dev' and 'local' profiles.
  */
 @Component
-//@Primary
+@ConditionalOnProperty(name = "app.randomizer.api.mode", havingValue = "mock")
 public class MockRandomizerApiAdapter implements RandomizerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MockRandomizerApiAdapter.class);

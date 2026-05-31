@@ -36,8 +36,8 @@ public class FrancoRandomHandler {
      */
     public void showNumberSelection(DiscordInteraction interaction) {
         DiscordMessage message = new DiscordMessage(
-                "🎲 How many random Franco options do you want?\n" +
-                "(The bot will randomly select compatible options for you)"
+                "🎲 **How many random Franco options do you want?**\n" +
+                "(The bot will select compatible options for you)"
         );
 
         // Add buttons for different counts

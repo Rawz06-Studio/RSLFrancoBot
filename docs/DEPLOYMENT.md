@@ -105,6 +105,7 @@ docker rm -f rslfrancobot
 | `RANDOMIZER_API_KEY` | No* | - | OoT Randomizer API key |
 | `JAVA_OPTS` | No | `-Xmx512m -Xms256m` | JVM options |
 | `SPRING_PROFILES_ACTIVE` | No | `prod` | Spring profile |
+| `APP_RANDOMIZER_API_MODE` | No | `http` | API Mode (`http` or `mock`) |
 
 \* Required for production use. Mock implementation works without it.
 
@@ -118,20 +119,14 @@ The bot uses mock implementations by default for testing:
 - Displays full settings JSON in logs
 - Perfect for local development
 
-To use Mock mode, simply don't set `RANDOMIZER_API_KEY` or leave it empty.
+To use Mock mode, set `app.randomizer.api.mode=mock` in your properties or via environment variables.
 
 ### Production Mode
 
 To enable real API calls:
 
 1. Ensure you have a valid `RANDOMIZER_API_KEY`
-2. Uncomment `@Primary` annotation in `HttpRandomizerApiAdapter.java`:
-
-```java
-@Component
-@Primary  // Uncomment this line
-public class HttpRandomizerApiAdapter implements IRandomizerApi {
-```
+2. Set `app.randomizer.api.mode=http` in `application.properties` or set environment variable `APP_RANDOMIZER_API_MODE=http`.
 
 3. Rebuild and redeploy:
 

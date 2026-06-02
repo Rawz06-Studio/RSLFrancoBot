@@ -13,7 +13,7 @@ start_weird_egg:
     spawn_positions: []
     shuffle_child_trade: ["Weird Egg"]
     start_with_consumables: false
-    starting_equipment: [],
+    starting_equipment: []
     starting_inventory: [
       "ocarina",
       "farores_wind",

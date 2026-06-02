@@ -45,7 +45,7 @@ public class SeedPresenter {
 
         // Second row: RSL modes
         List<DiscordButton> rslRow = new ArrayList<>(List.of(
-            new DiscordButton("S7 (RSL)", "seed_rsl", DiscordButton.Style.SUCCESS),
+            new DiscordButton("S7 (RSL)", "seed_rsl", DiscordButton.Style.PRIMARY),
             new DiscordButton("PoT (RSL)", "seed_pot", DiscordButton.Style.SECONDARY),
             new DiscordButton("Beginner (RSL)", "seed_beginner", DiscordButton.Style.SECONDARY),
             new DiscordButton("S8 (RSL) (unofficial)", "seed_rsl_s8", DiscordButton.Style.DANGER)

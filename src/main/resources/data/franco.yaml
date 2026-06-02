@@ -42,7 +42,7 @@ ocarina:
   level: "easy"
   settings:
     shuffle_ocarinas: true
-    free_scarecrow: true
+    scarecrow_behavior: "free"
 
 bombchu_bag:
   label: "Bombchu Drops"
@@ -143,7 +143,7 @@ dot:
   description: "The Door of Time starts closed."
   level: "easy"
   settings:
-    open_door_of_time: false
+    open_door_of_time: "sot"
 
 fountain:
   label: "Open Zora Fountain"
@@ -416,7 +416,7 @@ precompleted_1:
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 1
-    enhance_map_compass: true
+    enhance_map_compass: ["compass_reward"]
     bridge: "dungeons"
     bridge_rewards: 9
     shuffle_ganon_bosskey: "dungeons"
@@ -429,7 +429,7 @@ precompleted_2:
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 2
-    enhance_map_compass: true
+    enhance_map_compass: ["compass_reward"]
     bridge: "dungeons"
     bridge_rewards: 9
     shuffle_ganon_bosskey: "dungeons"
@@ -442,7 +442,7 @@ precompleted_3:
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 3
-    enhance_map_compass: true
+    enhance_map_compass: ["compass_reward"]
     bridge: "dungeons"
     bridge_rewards: 9
     shuffle_ganon_bosskey: "dungeons"

@@ -32,33 +32,50 @@ public class FrancoRandomHandler {
     }
 
     /**
-     * Shows buttons to select number of random options.
+     * Entry point for random option selection.
+     * Shows buttons to select difficulty level (Easy or Hard).
      */
-    public void showNumberSelection(DiscordInteraction interaction) {
+    public void handle(DiscordInteraction interaction) {
         DiscordMessage message = new DiscordMessage(
-                "🎲 **How many random Franco options do you want?**\n" +
+                "⚔️ **Select difficulty level for random Franco options**\n" +
+                "• **Easy**: Only options tagged as 'easy' will be picked.\n" +
+                "• **Hard**: Both 'easy' and 'hard' options can be picked."
+        );
+
+        message.addButton("Easy", "franco_level_easy", DiscordButton.Style.PRIMARY);
+        message.addButton("Hard", "franco_level_hard", DiscordButton.Style.DANGER);
+
+        message.setEphemeral(true);
+        interaction.reply(message);
+    }
+
+    /**
+     * Handles the level selection and shows buttons for number of options.
+     */
+    public void handleLevelSelection(DiscordInteraction interaction, String level) {
+        DiscordMessage message = new DiscordMessage(
+                "🎲 **How many random Franco options do you want (" + level + ")?**\n" +
                 "(The bot will select compatible options for you)"
         );
 
-        // Add buttons for different counts
-        message.addButton("3 options", "franco_random_3", DiscordButton.Style.PRIMARY);
-        message.addButton("5 options", "franco_random_5", DiscordButton.Style.PRIMARY);
-        message.addButton("7 options", "franco_random_7", DiscordButton.Style.PRIMARY);
-        message.addButton("10 options", "franco_random_10", DiscordButton.Style.PRIMARY);
-        message.addButton("15 options", "franco_random_15", DiscordButton.Style.SUCCESS);
+        String prefix = "franco_random_" + level + "_";
+        message.addButton("3 options", prefix + "3", DiscordButton.Style.PRIMARY);
+        message.addButton("5 options", prefix + "5", DiscordButton.Style.PRIMARY);
+        message.addButton("7 options", prefix + "7", DiscordButton.Style.PRIMARY);
+        message.addButton("10 options", prefix + "10", DiscordButton.Style.PRIMARY);
+        message.addButton("15 options", prefix + "15", DiscordButton.Style.SUCCESS);
 
         message.setEphemeral(true);
         interaction.reply(message);
 
-        // Delete the Franco options selection message
+        // Delete the original message (Level Selection or Options Selection) to keep channel clean
         interaction.deleteOriginalMessage();
     }
 
     /**
-     * Handles random selection with specified count.
-     * Randomly selects compatible options and generates a seed.
+     * Handles the final random selection with specified count and level.
      */
-    public void handleWithCount(DiscordInteraction interaction, int requestedCount) {
+    public void handleRandomSelection(DiscordInteraction interaction, int requestedCount, String level) {
         interaction.defer();
 
         try {
@@ -70,8 +87,19 @@ public class FrancoRandomHandler {
             // Get Franco preset and available options
             List<Preset.PresetOption> allOptions = seedService.getAvailableOptions("franco");
 
+            // Filter options based on level
+            List<Preset.PresetOption> filteredOptions;
+            if ("easy".equalsIgnoreCase(level)) {
+                filteredOptions = allOptions.stream()
+                        .filter(o -> "easy".equalsIgnoreCase(o.level()))
+                        .toList();
+            } else {
+                // "hard" level includes both easy and hard (as per request)
+                filteredOptions = allOptions;
+            }
+
             // Randomly select compatible options
-            List<String> selectedOptions = selectRandomCompatibleOptions(allOptions, requestedCount);
+            List<String> selectedOptions = selectRandomCompatibleOptions(filteredOptions, requestedCount);
 
             // Convert to Map for SeedService
             Map<String, String> userSettings = new HashMap<>();

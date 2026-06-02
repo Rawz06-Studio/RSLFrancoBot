@@ -1,12 +1,14 @@
 camc:
   label: "Correct Chest Appearances"
   description: "Disable correction of chest appearance inconsistencies."
+  level: "easy"
   settings:
     correct_chest_appearances: "off"
 
 start_weird_egg:
   label: "Start with Weird Egg"
   description: "Player starts with the Weird Egg and no consumables."
+  level: "easy"
   settings:
     spawn_positions: []
     shuffle_child_trade: ["Weird Egg"]
@@ -16,24 +18,28 @@ start_weird_egg:
 keysy:
   label: "Keysy Mode"
   description: "Removes small keys from dungeons."
+  level: "easy"
   settings:
     shuffle_smallkeys: "remove"
 
 open_deku:
   label: "Open Forest"
   description: "The forest is open from the start of the game."
+  level: "easy"
   settings:
     open_forest: "open"
 
 gerudo_card:
   label: "Gerudo Card Shuffle"
   description: "Allows the Gerudo Card to be shuffled."
+  level: "easy"
   settings:
     shuffle_gerudo_card: true
 
 ocarina:
   label: "Ocarina Shuffle"
   description: "Shuffle Ocarinas and make Scarecrow Song free."
+  level: "easy"
   settings:
     shuffle_ocarinas: true
     free_scarecrow: true
@@ -41,18 +47,21 @@ ocarina:
 bombchu_bag:
   label: "Bombchu Drops"
   description: "Enable free Bombchu drops without requiring a bag."
+  level: "easy"
   settings:
     free_bombchu_drops: true
 
 dungeon_er:
   label: "Simple Dungeon Entrance Randomizer"
   description: "Randomizes dungeon entrances in a simple pool."
+  level: "easy"
   settings:
     shuffle_dungeon_entrances: "simple"
 
 dungeon_er_mixed:
   label: "Mixed Dungeon Entrance Randomizer"
   description: "Mix dungeon entrances with interior and grotto entrances."
+  level: "hard"
   settings:
     shuffle_dungeon_entrances: "simple"
     mix_entrance_pools: ["Interior", "GrottoGrave", "Dungeon"]
@@ -60,24 +69,28 @@ dungeon_er_mixed:
 songsanity:
   label: "Songsanity (Any)"
   description: "Shuffle all song rewards among general items."
+  level: "easy"
   settings:
     shuffle_song_items: "any"
 
 songsanity_dungeon:
   label: "Songsanity (Dungeon)"
   description: "Shuffle song rewards within dungeon rewards."
+  level: "easy"
   settings:
     shuffle_song_items: "dungeon"
 
 cowsanity:
   label: "Cowsanity"
   description: "Shuffle cow item rewards into the general item pool."
+  level: "easy"
   settings:
     shuffle_cows: true
 
 shops:
   label: "Shopsanity 4"
   description: "Shops contain 4 randomized items and start with rupees."
+  level: "easy"
   settings:
     shopsanity: "4"
     start_with_rupees: true
@@ -85,36 +98,42 @@ shops:
 scrubsanity:
   label: "Scrubsanity (Low)"
   description: "Shuffle scrub item prices and pool with low density."
+  level: "easy"
   settings:
     shuffle_scrubs: "low"
 
 token_dj:
   label: "Tokensanity (Dungeons)"
   description: "Only dungeon Skulltulas give randomized tokens."
+  level: "easy"
   settings:
     tokensanity: "dungeons"
 
 token_ow:
   label: "Tokensanity (Overworld)"
   description: "Only overworld Skulltulas give randomized tokens."
+  level: "hard"
   settings:
     tokensanity: "overworld"
 
 token_all:
   label: "Tokensanity (All)"
   description: "All Skulltulas give randomized tokens."
+  level: "hard"
   settings:
     tokensanity: "all"
 
 boss_key:
   label: "Boss Keysanity"
   description: "Shuffle boss keys among the full item pool."
+  level: "easy"
   settings:
     shuffle_bosskeys: "keysanity"
 
 warps:
   label: "Warp Songs and Owl Drops"
   description: "Enable warp songs and owl drop travel."
+  level: "easy"
   settings:
     warp_songs: true
     owl_drops: true
@@ -122,48 +141,56 @@ warps:
 dot:
   label: "Closed Door of Time"
   description: "The Door of Time starts closed."
+  level: "easy"
   settings:
     open_door_of_time: false
 
 fountain:
   label: "Open Zora Fountain"
   description: "Zora's Fountain is accessible from the start."
+  level: "easy"
   settings:
     zora_fountain: "open"
 
 one_major:
   label: "One Major Item per Dungeon"
   description: "Each dungeon contains only one major item."
+  level: "easy"
   settings:
     one_item_per_dungeon: true
 
 boss_souls:
   label: "Boss Souls Shuffle"
   description: "Enemies drop boss souls."
+  level: "easy"
   settings:
     shuffle_enemy_spawns: "bosses"
 
 regional_souls:
   label: "Regional Souls Shuffle"
   description: "Enemies drop souls limited to their regions."
+  level: "hard"
   settings:
     shuffle_enemy_spawns: "regional"
 
 souls:
   label: "All Souls Shuffle"
   description: "Enemies drop randomized souls from all regions."
+  level: "hard"
   settings:
     shuffle_enemy_spawns: "all"
 
 boss_er:
   label: "Boss Entrance Randomizer"
   description: "Fully randomizes boss entrances."
+  level: "easy"
   settings:
     shuffle_bosses: "full"
 
 mixed_er:
   label: "Mixed Entrance Randomizer"
   description: "Mix grotto and interior entrances."
+  level: "hard"
   settings:
     shuffle_grotto_entrances: true
     shuffle_interior_entrances: "all"
@@ -172,12 +199,14 @@ mixed_er:
 keysanity_all:
   label: "Full Keysanity"
   description: "All small keys are shuffled into the item pool."
+  level: "hard"
   settings:
     shuffle_smallkeys: "keysanity"
 
 keyring_all:
   label: "All Key Rings"
   description: "All small keys are grouped into key rings by region."
+  level: "hard"
   settings:
     shuffle_smallkeys: "regional"
     key_rings_choice: "all"
@@ -185,6 +214,7 @@ keyring_all:
 keyring_regional:
   label: "Regional Key Rings"
   description: "Regional small keys grouped into key rings."
+  level: "hard"
   settings:
     shuffle_smallkeys: "keysanity"
     key_rings_choice: "all"
@@ -192,30 +222,35 @@ keyring_regional:
 trials:
   label: "Random Trials"
   description: "Randomize the number of active Ganon trials."
+  level: "hard"
   settings:
     trials_random: true
 
 frogs:
   label: "Frogsanity"
   description: "Shuffle Frog Song rupee rewards."
+  level: "easy"
   settings:
     shuffle_frog_song_rupees: true
 
 minimal:
   label: "Minimal Item Pool"
   description: "Generate the minimal number of items possible."
+  level: "hard"
   settings:
     item_pool_value: "minimal"
 
 scarce:
   label: "Scarce Item Pool"
   description: "Generate a reduced number of items."
+  level: "hard"
   settings:
     item_pool_value: "scarce"
 
 pot:
   label: "Pots Shuffle"
   description: "Shuffle items found inside pots."
+  level: "hard"
   settings:
     shuffle_pots: "all"
     shuffle_empty_pots: false
@@ -223,6 +258,7 @@ pot:
 crate:
   label: "Crates Shuffle"
   description: "Shuffle items found in crates."
+  level: "hard"
   settings:
     shuffle_crates: "all"
     shuffle_empty_crates: false
@@ -230,12 +266,14 @@ crate:
 beatable_only:
   label: "Beatable Only Mode"
   description: "World generation ensures the game can be beaten but not necessarily fully completed."
+  level: "hard"
   settings:
     reachable_locations: "beatable"
 
 bridge_6_med:
   label: "6 Medallion Bridge"
   description: "Requires 6 medallions to spawn the rainbow bridge."
+  level: "easy"
   settings:
     bridge: "medallions"
     bridge_medallions: 6
@@ -245,6 +283,7 @@ bridge_6_med:
 bridge_4_med_bgk_6_med:
   label: "4 Medallion Bridge + 6 Medallion Boss Key"
   description: "Bridge requires 4 medallions; Ganon boss key requires 6."
+  level: "easy"
   settings:
     bridge: "medallions"
     bridge_medallions: 4
@@ -254,6 +293,7 @@ bridge_4_med_bgk_6_med:
 bridge_4_med_bgk_6_dj:
   label: "4 Medallion Bridge + 6 Dungeon Boss Key"
   description: "Bridge requires 4 medallions; Ganon boss key requires 6 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "medallions"
     bridge_medallions: 4
@@ -263,6 +303,7 @@ bridge_4_med_bgk_6_dj:
 bridge_5_med_bgk_6_med:
   label: "5 Medallion Bridge + 6 Medallion Boss Key"
   description: "Bridge requires 5 medallions; Ganon boss key requires 6."
+  level: "easy"
   settings:
     bridge: "medallions"
     bridge_medallions: 5
@@ -272,6 +313,7 @@ bridge_5_med_bgk_6_med:
 bridge_5_med_bgk_6_dj:
   label: "5 Medallion Bridge + 6 Dungeon Boss Key"
   description: "Bridge requires 5 medallions; Ganon boss key requires 6 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "medallions"
     bridge_medallions: 5
@@ -281,6 +323,7 @@ bridge_5_med_bgk_6_dj:
 bridge_1_stone:
   label: "1 Stone Bridge"
   description: "Bridge opens after obtaining 1 Spiritual Stone."
+  level: "easy"
   settings:
     bridge: "stones"
     bridge_stones: 1
@@ -290,6 +333,7 @@ bridge_1_stone:
 bridge_2_stones:
   label: "2 Stones Bridge"
   description: "Bridge opens after obtaining 2 Spiritual Stones."
+  level: "easy"
   settings:
     bridge: "stones"
     bridge_stones: 2
@@ -299,6 +343,7 @@ bridge_2_stones:
 bridge_3_stones:
   label: "3 Stones Bridge"
   description: "Bridge opens after obtaining all 3 Spiritual Stones."
+  level: "easy"
   settings:
     bridge: "stones"
     bridge_stones: 3
@@ -308,6 +353,7 @@ bridge_3_stones:
 bridge_vanilla:
   label: "Vanilla Bridge"
   description: "The bridge opens using vanilla game logic."
+  level: "easy"
   settings:
     bridge: "vanilla"
     shuffle_ganon_bosskey: "medallions"
@@ -316,6 +362,7 @@ bridge_vanilla:
 bridge_5_dj:
   label: "5 Dungeon Bridge"
   description: "Bridge requires 5 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "dungeons"
     bridge_rewards: 5
@@ -325,6 +372,7 @@ bridge_5_dj:
 bridge_6_dj:
   label: "6 Dungeon Bridge"
   description: "Bridge requires 6 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "dungeons"
     bridge_rewards: 6
@@ -334,6 +382,7 @@ bridge_6_dj:
 bridge_7_dj:
   label: "7 Dungeon Bridge"
   description: "Bridge requires 7 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "dungeons"
     bridge_rewards: 7
@@ -343,6 +392,7 @@ bridge_7_dj:
 bridge_8_dj:
   label: "8 Dungeon Bridge"
   description: "Bridge requires 8 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "dungeons"
     bridge_rewards: 8
@@ -352,6 +402,7 @@ bridge_8_dj:
 bridge_9_dj:
   label: "9 Dungeon Bridge"
   description: "Bridge requires 9 dungeon rewards."
+  level: "easy"
   settings:
     bridge: "dungeons"
     bridge_rewards: 9
@@ -361,6 +412,7 @@ bridge_9_dj:
 precompleted_1:
   label: "1 Precompleted Dungeon"
   description: "Start with 1 dungeon completed and enhanced maps."
+  level: "easy"
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 1
@@ -373,6 +425,7 @@ precompleted_1:
 precompleted_2:
   label: "2 Precompleted Dungeons"
   description: "Start with 2 dungeons completed and enhanced maps."
+  level: "easy"
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 2
@@ -385,6 +438,7 @@ precompleted_2:
 precompleted_3:
   label: "3 Precompleted Dungeons"
   description: "Start with 3 dungeons completed and enhanced maps."
+  level: "easy"
   settings:
     empty_dungeons_mode: "count"
     empty_dungeons_count: 3
@@ -393,3 +447,20 @@ precompleted_3:
     bridge_rewards: 9
     shuffle_ganon_bosskey: "dungeons"
     ganon_bosskey_rewards: 9
+
+triforce_hunt:
+  label: "Triforce Hunt"
+  description: "Collect Triforce pieces to win."
+  level: "easy"
+  settings:
+    triforce_hunt: true
+    triforce_goal_per_world: 30
+    triforce_count_per_world: 45
+    shuffle_ganon_bosskey: "triforce"
+
+reachable_all:
+  label: "All Locations Reachable"
+  description: "World generation ensures all locations are reachable."
+  level: "hard"
+  settings:
+    reachable_locations: "all"

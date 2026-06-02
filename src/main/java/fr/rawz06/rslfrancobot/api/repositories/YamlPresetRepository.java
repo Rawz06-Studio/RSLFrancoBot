@@ -170,6 +170,7 @@ public class YamlPresetRepository implements PresetRepository {
 
                 String label = (String) optionData.get("label");
                 String description = (String) optionData.get("description");
+                String level = (String) optionData.get("level");
                 Map<String, Object> settingsToApply = (Map<String, Object>) optionData.get("settings");
 
                 // Handle incompatibilities
@@ -179,6 +180,7 @@ public class YamlPresetRepository implements PresetRepository {
                         optionId,
                         label,
                         description,
+                        level,
                         settingsToApply,
                         incompatibleWith
                 );

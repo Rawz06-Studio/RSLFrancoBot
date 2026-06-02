@@ -28,6 +28,7 @@ public record Preset(
             String id,
             String label,
             String description,
+            String level,
             Map<String, Object> settingsToApply,
             List<String> incompatibleWith
     ) {

@@ -30,11 +30,20 @@ public class SeedRestController {
     private final PresetRepository presetRepository;
 
     @GetMapping("/franco")
-    public FrancoSeedResponse generateFranco(@RequestParam(defaultValue = "5") int count, @RequestParam(required = false, defaultValue = "api-user") String userId) {
+    public FrancoSeedResponse generateFranco(
+            @RequestParam(defaultValue = "5") int count,
+            @RequestParam(defaultValue = "hard") String level,
+            @RequestParam(required = false, defaultValue = "api-user") String userId) {
         Preset preset = presetRepository.getPreset("franco")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Franco preset not found"));
 
         List<Preset.PresetOption> availableOptions = new ArrayList<>(preset.availableOptions());
+        if ("easy".equalsIgnoreCase(level)) {
+            availableOptions = availableOptions.stream()
+                    .filter(o -> "easy".equalsIgnoreCase(o.level()))
+                    .collect(Collectors.toList());
+        }
+
         Collections.shuffle(availableOptions);
 
         List<Preset.PresetOption> selectedOptions = new ArrayList<>();

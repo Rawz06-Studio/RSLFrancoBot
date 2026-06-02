@@ -99,14 +99,35 @@ public class JDAEventListener extends ListenerAdapter {
         try {
             var interaction = JDAInteractionAdapter.fromButtonEvent(event);
 
+            // Handle level selection buttons
+            if (buttonId.startsWith("franco_level_")) {
+                String level = buttonId.substring("franco_level_".length());
+                francoRandomHandler.handleLevelSelection(interaction, level);
+                return;
+            }
+
             // Handle random selection buttons
             if (buttonId.startsWith("franco_random_")) {
-                String countStr = buttonId.substring("franco_random_".length());
-                try {
-                    int count = Integer.parseInt(countStr);
-                    francoRandomHandler.handleWithCount(interaction, count);
-                } catch (NumberFormatException e) {
-                    event.reply("❌ Invalid number format.").setEphemeral(true).queue();
+                String remaining = buttonId.substring("franco_random_".length());
+                // format: {level}_{count}
+                int lastUnderscore = remaining.lastIndexOf('_');
+                if (lastUnderscore != -1) {
+                    String level = remaining.substring(0, lastUnderscore);
+                    String countStr = remaining.substring(lastUnderscore + 1);
+                    try {
+                        int count = Integer.parseInt(countStr);
+                        francoRandomHandler.handleRandomSelection(interaction, count, level);
+                    } catch (NumberFormatException e) {
+                        event.reply("❌ Invalid number format.").setEphemeral(true).queue();
+                    }
+                } else {
+                    // Legacy support or fallback
+                    try {
+                        int count = Integer.parseInt(remaining);
+                        francoRandomHandler.handleRandomSelection(interaction, count, "hard");
+                    } catch (NumberFormatException e) {
+                        event.reply("❌ Invalid button ID format.").setEphemeral(true).queue();
+                    }
                 }
                 return;
             }
@@ -133,7 +154,7 @@ public class JDAEventListener extends ListenerAdapter {
                 case "seed_salad_mix" -> saladMixButtonHandler.handle(interaction);
                 case "seed_salad_all" -> saladAllButtonHandler.handle(interaction);
                 case "franco_validate" -> francoValidateHandler.handle(interaction);
-                case "franco_random" -> francoRandomHandler.showNumberSelection(interaction);
+                case "franco_random" -> francoRandomHandler.handle(interaction);
                 case "franco_cancel" -> event.reply("Generation cancelled.").setEphemeral(true).queue();
                 default -> event.reply("Unknown button: " + buttonId).setEphemeral(true).queue();
             }

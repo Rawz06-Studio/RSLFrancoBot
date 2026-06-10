@@ -41,7 +41,7 @@ public class InfoPresenter {
         sb.append("- Franco: `").append(versionConfig.getFranco()).append("`\n\n");
 
         sb.append("__RSL Versions__\n");
-        sb.append("- RSL: `").append(versionConfig.getRsl()).append("`\n");
+        sb.append("- RSL: `").append(versionConfig.getRsl()).append("`\n\n");
 
         sb.append("__Salad Versions__\n");
         sb.append("- Enemy Salad: `").append(versionConfig.getEnemySalad()).append("`\n");

@@ -17,25 +17,23 @@ FROM eclipse-temurin:25-jre-alpine
 
 WORKDIR /app
 
-# uv + Python 3.14
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
-RUN uv python install 3.14 --default --preview
-
-# Install dependencies: python3, pip, git, build tools
+# System dependencies
 RUN apk add --no-cache \
-    py3-pip \
     git \
-    build-base \
     curl
 
-RUN pip3 install requests --break-system-packages
+# uv + Python 3.14 (installed system-wide, accessible to all users)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+ENV UV_PYTHON_INSTALL_DIR=/opt/python \
+    UV_PYTHON_BIN_DIR=/usr/local/bin
+
+RUN uv python install 3.14 --default --preview \
+    && uv pip install --system --break-system-packages requests
 
 # Clone plando-random-settings at specific commit
-RUN git clone https://github.com/matthewkirby/plando-random-settings.git ./plando-random-settings
-
-# Checkout specific commit
-RUN git -C plando-random-settings fetch && \
-    git -C plando-random-settings checkout 240cdc5
+RUN git clone https://github.com/matthewkirby/plando-random-settings.git ./plando-random-settings \
+    && git -C plando-random-settings checkout 240cdc5
 
 # Copy custom weight files
 COPY weights/ ./plando-random-settings/weights/

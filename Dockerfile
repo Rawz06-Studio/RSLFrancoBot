@@ -17,9 +17,12 @@ FROM eclipse-temurin:25-jre-alpine
 
 WORKDIR /app
 
+# uv + Python 3.14
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+RUN uv python install 3.14 --default --preview
+
 # Install dependencies: python3, pip, git, build tools
 RUN apk add --no-cache \
-    python3 \
     py3-pip \
     git \
     build-base \

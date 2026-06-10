@@ -32,7 +32,7 @@ RUN git clone https://github.com/matthewkirby/plando-random-settings.git ./pland
 
 # Checkout specific commit
 RUN git -C plando-random-settings fetch && \
-    git -C plando-random-settings checkout 50813f8
+    git -C plando-random-settings checkout 240cdc5
 
 # Copy custom weight files
 COPY weights/ ./plando-random-settings/weights/

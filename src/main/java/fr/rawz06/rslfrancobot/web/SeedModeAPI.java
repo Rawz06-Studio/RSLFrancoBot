@@ -21,7 +21,6 @@ public enum SeedModeAPI {
     SEED_RSL("seed_rsl", SeedMode.RSL),
     SEED_POT("seed_pot", SeedMode.POT),
     SEED_BEGINNER("seed_beginner", SeedMode.BEGINNER),
-    SEED_RSL_S8("seed_rsl_s8", SeedMode.RSL_SEASON8),
     SEED_ROT("seed_rot", SeedMode.ROT),
 
     SEED_ALLSANITY_ER_DECOUPLED("seed_allsanity_er_decoupled", SeedMode.ALLSANITY_ER_DECOUPLED),

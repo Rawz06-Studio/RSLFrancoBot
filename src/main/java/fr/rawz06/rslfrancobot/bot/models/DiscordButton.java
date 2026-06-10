@@ -6,7 +6,8 @@ package fr.rawz06.rslfrancobot.bot.models;
 public record DiscordButton(
         String label,
         String customId,
-        Style style
+        Style style,
+        boolean disabled
 ) {
     public enum Style {
         PRIMARY,    // Blue
@@ -16,6 +17,12 @@ public record DiscordButton(
     }
 
     public DiscordButton(String label, String customId) {
-        this(label, customId, Style.PRIMARY);
+        this(label, customId, Style.PRIMARY, false);
+    }
+    public DiscordButton(String label, String customId, Style style) {
+        this(label, customId, style, false);
+    }
+    public DiscordButton(String label, String customId, boolean disabled) {
+        this(label, customId, Style.PRIMARY, disabled);
     }
 }

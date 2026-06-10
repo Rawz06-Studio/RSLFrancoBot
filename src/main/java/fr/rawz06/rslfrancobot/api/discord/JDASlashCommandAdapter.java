@@ -226,7 +226,8 @@ public class JDASlashCommandAdapter implements DiscordInteraction {
             case DANGER -> ButtonStyle.DANGER;
         };
 
-        return Button.of(style, button.customId(), button.label());
+        Button btn = Button.of(style, button.customId(), button.label());
+        return btn.withDisabled(button.disabled());
     }
 
     private StringSelectMenu convertSelectMenu(DiscordSelectMenu menu) {

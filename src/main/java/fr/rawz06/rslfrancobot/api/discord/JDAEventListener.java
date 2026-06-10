@@ -41,7 +41,6 @@ public class JDAEventListener extends ListenerAdapter {
     private final RSLButtonHandler rslButtonHandler;
     private final PoTButtonHandler potButtonHandler;
     private final BeginnerButtonHandler beginnerButtonHandler;
-    private final RSLS8ButtonHandler rslS8ButtonHandler;
     private final RoTButtonHandler roTButtonHandler;
     private final S8ButtonHandler s8ButtonHandler;
     private final S9ButtonHandler s9ButtonHandler;
@@ -137,7 +136,6 @@ public class JDAEventListener extends ListenerAdapter {
                 case "seed_rsl" -> rslButtonHandler.handle(interaction);
                 case "seed_pot" -> potButtonHandler.handle(interaction);
                 case "seed_beginner" -> beginnerButtonHandler.handle(interaction);
-                case "seed_rsl_s8" -> rslS8ButtonHandler.handle(interaction);
                 case "seed_rot" -> roTButtonHandler.handle(interaction);
                 case "seed_s8" -> s8ButtonHandler.handle(interaction);
                 case "seed_s9" -> s9ButtonHandler.handle(interaction);

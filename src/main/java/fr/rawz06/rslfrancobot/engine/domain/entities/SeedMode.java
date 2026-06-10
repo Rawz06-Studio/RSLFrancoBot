@@ -8,7 +8,6 @@ public enum SeedMode {
     RSL,
     POT,
     BEGINNER,
-    RSL_SEASON8,
     S8,
     S9,
     ALLSANITY_ER_DECOUPLED,

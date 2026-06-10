@@ -35,6 +35,7 @@ public class GenerateRSLSeedUseCase {
         String presetName = switch (request.mode()) {
             case RSL -> "rsl";
             case POT -> "pot";
+            case ROT -> "rot";
             case BEGINNER -> "beginner";
             default -> throw new GenerationException("Unsupported mode for RSL/PoT/Beginner: " + request.mode());
         };

@@ -42,8 +42,7 @@ public class RandomizerApiService {
     public String getVersionForMode(SeedMode mode) {
         return switch (mode) {
             case FRANCO -> versionConfig.getFranco();
-            case RSL, POT, BEGINNER -> versionConfig.getRsl();
-            case RSL_SEASON8, ROT -> versionConfig.getRsl_s8();
+            case RSL, POT, BEGINNER, ROT -> versionConfig.getRsl();
             case S8 -> versionConfig.getS8();
             case S9 -> versionConfig.getS9();
             case ALLSANITY_ER_DECOUPLED, ALLSANITY_ER, ALLSANITY_ONLY -> versionConfig.getAllsanity();

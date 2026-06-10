@@ -42,6 +42,9 @@ public class PythonRSLScriptAdapter implements RSLScriptRunner {
     @Value("${app.python.weights.pot}")
     private String potWeight;
 
+    @Value("${app.python.weights.rot}")
+    private String rotWeight;
+
     @Value("${app.python.weights.beginner}")
     private String beginnerWeight;
 
@@ -56,6 +59,7 @@ public class PythonRSLScriptAdapter implements RSLScriptRunner {
         String weightFile = switch (preset.name()) {
             case "rsl" -> rslWeight;
             case "pot" -> potWeight;
+            case "rot" -> rotWeight;
             case "beginner" -> beginnerWeight;
             default -> throw new ScriptExecutionException("Unknown preset: " + preset.name());
         };

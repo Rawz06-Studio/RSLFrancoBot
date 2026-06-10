@@ -45,14 +45,13 @@ public class SeedPresenter {
 
         // Second row: RSL modes
         List<DiscordButton> rslRow = new ArrayList<>(List.of(
-            new DiscordButton("S7 (RSL)", "seed_rsl", DiscordButton.Style.PRIMARY),
-            new DiscordButton("PoT (RSL)", "seed_pot", DiscordButton.Style.SECONDARY),
-            new DiscordButton("Beginner (RSL)", "seed_beginner", DiscordButton.Style.SECONDARY),
-            new DiscordButton("S8 (RSL) (unofficial)", "seed_rsl_s8", DiscordButton.Style.DANGER)
+            new DiscordButton("Main (RSL)", "seed_rsl", DiscordButton.Style.PRIMARY),
+            new DiscordButton("PoT (RSL)", "seed_pot", DiscordButton.Style.SECONDARY, true),
+            new DiscordButton("Beginner (RSL)", "seed_beginner", DiscordButton.Style.SECONDARY, true)
         ));
 
         if(getUserAvailableGenerateUseCase.available(username, "rot")) {
-            rslRow.add(new DiscordButton("Rupee of Time", "seed_rot", DiscordButton.Style.SECONDARY));
+            rslRow.add(new DiscordButton("RoT (RSL)", "seed_rot", DiscordButton.Style.SECONDARY));
         }
         message.addButtonRow(rslRow);
 

@@ -7,7 +7,6 @@ import fr.rawz06.rslfrancobot.engine.domain.entities.SeedResult;
 import fr.rawz06.rslfrancobot.engine.domain.ports.PresetRepository;
 import fr.rawz06.rslfrancobot.engine.usecases.allsanity.GenerateAllsanitySeedUseCase;
 import fr.rawz06.rslfrancobot.engine.usecases.franco.GenerateFrancoSeedUseCase;
-import fr.rawz06.rslfrancobot.engine.usecases.rsl.GenerateRSLSeedFromAPIUseCase;
 import fr.rawz06.rslfrancobot.engine.usecases.rsl.GenerateRSLSeedUseCase;
 import fr.rawz06.rslfrancobot.engine.usecases.mixed.GenerateMixedSeedUseCase;
 import fr.rawz06.rslfrancobot.engine.usecases.s8.GenerateS8SeedUseCase;
@@ -30,7 +29,6 @@ public class SeedService {
 
     private final GenerateFrancoSeedUseCase generateFrancoSeedUseCase;
     private final GenerateRSLSeedUseCase generateRSLSeedUseCase;
-    private final GenerateRSLSeedFromAPIUseCase generateRSLSeedFromAPIUseCase;
     private final GenerateS8SeedUseCase generateS8SeedUseCase;
     private final GenerateS9SeedUseCase generateS9SeedUseCase;
     private final GenerateAllsanitySeedUseCase generateAllsanitySeedUseCase;
@@ -48,9 +46,7 @@ public class SeedService {
         try {
             return switch (mode) {
                 case FRANCO -> generateFrancoSeedUseCase.execute(request);
-                case RSL, POT, BEGINNER -> generateRSLSeedUseCase.execute(request);
-                case RSL_SEASON8 -> generateRSLSeedFromAPIUseCase.execute(request, "rsl_season8");
-                case ROT -> generateRSLSeedFromAPIUseCase.execute(request, "rsl_rupee");
+                case RSL, POT, BEGINNER, ROT -> generateRSLSeedUseCase.execute(request);
                 case S8 -> generateS8SeedUseCase.execute(request);
                 case S9 -> generateS9SeedUseCase.execute(request);
                 case ALLSANITY_ER_DECOUPLED, ALLSANITY_ER, ALLSANITY_ONLY -> generateAllsanitySeedUseCase.execute(request);
@@ -59,7 +55,6 @@ public class SeedService {
                 case MIXED -> generateMixedSeedUseCase.execute(request);
             };
         } catch (GenerateFrancoSeedUseCase.GenerationException | GenerateRSLSeedUseCase.GenerationException |
-                 GenerateRSLSeedFromAPIUseCase.GenerationException |
                  GenerateS8SeedUseCase.GenerationException | GenerateS9SeedUseCase.GenerationException |
                  GenerateAllsanitySeedUseCase.GenerationException | GenerateSaladSeedUseCase.GenerationException |
                  GenerateTotSeedUseCase.GenerationException | GenerateMixedSeedUseCase.GenerationException e) {

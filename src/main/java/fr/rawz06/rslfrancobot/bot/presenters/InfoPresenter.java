@@ -42,7 +42,6 @@ public class InfoPresenter {
 
         sb.append("__RSL Versions__\n");
         sb.append("- RSL: `").append(versionConfig.getRsl()).append("`\n");
-        sb.append("- RSL S8 (unofficial): `").append(versionConfig.getRsl_s8()).append("`\n\n");
 
         sb.append("__Salad Versions__\n");
         sb.append("- Enemy Salad: `").append(versionConfig.getEnemySalad()).append("`\n");

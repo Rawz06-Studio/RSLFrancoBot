@@ -55,10 +55,24 @@ public class FrancoValidateHandler {
             // Send final result as channel message (persists after cleanup)
             interaction.sendChannelMessage(presenter.presentFrancoSeedResult(result, selectedOptions, interaction.getUsername()));
 
+            // Clear selections so the next attempt starts fresh
+            interaction.clearUserData("franco_selections");
+
             // Delete interaction messages to keep channel clean
             interaction.deleteOriginalMessage();
         } catch (SeedService.SeedGenerationException e) {
+            // Clear selections in case of error so the next attempt starts fresh
+            interaction.clearUserData("franco_selections");
+
             interaction.editDeferredReply(presenter.presentError(e.getMessage()));
+            
+            // Delete ONLY the trigger message with menus
+            // We do NOT call deleteOriginalMessage() as it would delete the error message we just sent
+            try {
+                interaction.deleteTriggerMessage();
+            } catch (Exception ex) {
+                // Ignore
+            }
         }
     }
 }

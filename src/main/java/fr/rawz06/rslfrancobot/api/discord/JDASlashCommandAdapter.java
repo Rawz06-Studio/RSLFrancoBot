@@ -145,13 +145,20 @@ public class JDASlashCommandAdapter implements DiscordInteraction {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getUserData(String key, Class<T> type) {
         Map<String, Object> userData = userDataStore.get(userId);
         if (userData == null) {
             return null;
         }
         return (T) userData.get(key);
+    }
+
+    @Override
+    public void clearUserData(String key) {
+        Map<String, Object> userData = userDataStore.get(userId);
+        if (userData != null) {
+            userData.remove(key);
+        }
     }
 
     @Override
@@ -168,6 +175,14 @@ public class JDASlashCommandAdapter implements DiscordInteraction {
         } catch (Exception e) {
             // Silently ignore if message is already deleted or cannot be deleted
         }
+    }
+
+    @Override
+    public void deleteTriggerMessage() {
+        // Slash commands don't have a trigger message to delete in the same way
+        // Usually, the interaction itself is the only message.
+        // For Slash commands, we could potentially delete the deferred reply if needed.
+        // But the requirement is about cleaning up buttons/menus.
     }
 
     @Override

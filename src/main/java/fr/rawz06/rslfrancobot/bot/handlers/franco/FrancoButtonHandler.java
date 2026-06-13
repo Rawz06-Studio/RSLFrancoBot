@@ -25,6 +25,9 @@ public class FrancoButtonHandler {
 
     public void handle(DiscordInteraction interaction) {
         try {
+            // Clear previous selections to start fresh
+            interaction.clearUserData("franco_selections");
+
             List<Preset.PresetOption> options = seedService.getAvailableOptions("franco");
             interaction.reply(presenter.presentFrancoOptions(options));
 

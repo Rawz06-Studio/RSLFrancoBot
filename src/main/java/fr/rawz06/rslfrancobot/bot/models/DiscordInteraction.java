@@ -76,6 +76,11 @@ public interface DiscordInteraction {
     <T> T getUserData(String key, Class<T> type);
 
     /**
+     * Clears stored data for this user for a specific key.
+     */
+    void clearUserData(String key);
+
+    /**
      * Gets all stored user data.
      */
     Map<String, Object> getAllUserData();
@@ -85,6 +90,11 @@ public interface DiscordInteraction {
      * Useful for cleaning up intermediate messages after final result.
      */
     void deleteOriginalMessage();
+
+    /**
+     * Deletes only the trigger message (button/menu) but keeps the deferred reply.
+     */
+    void deleteTriggerMessage();
 
     /**
      * Sends a new message in the channel (not as interaction reply).

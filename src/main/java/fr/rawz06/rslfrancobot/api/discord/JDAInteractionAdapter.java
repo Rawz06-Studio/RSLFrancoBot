@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.FileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Translates JDA events into our DiscordInteraction abstraction.
  */
 public class JDAInteractionAdapter implements DiscordInteraction {
+
+    private static final Logger logger = LoggerFactory.getLogger(JDAInteractionAdapter.class);
 
     private final Object event; // ButtonInteractionEvent or StringSelectInteractionEvent
     private final String userId;
@@ -152,13 +156,20 @@ public class JDAInteractionAdapter implements DiscordInteraction {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getUserData(String key, Class<T> type) {
         Map<String, Object> userData = userDataStore.get(userId);
         if (userData == null) {
             return null;
         }
         return (T) userData.get(key);
+    }
+    
+    @Override
+    public void clearUserData(String key) {
+        Map<String, Object> userData = userDataStore.get(userId);
+        if (userData != null) {
+            userData.remove(key);
+        }
     }
 
     @Override
@@ -171,17 +182,35 @@ public class JDAInteractionAdapter implements DiscordInteraction {
         try {
             // Delete the deferred reply message if it exists
             if (deferredHook != null) {
-                deferredHook.deleteOriginal().queue();
+                deferredHook.deleteOriginal().queue(
+                    null,
+                    throwable -> logger.debug("Could not delete deferred original message: {}", throwable.getMessage())
+                );
             }
 
             // Also delete the button/menu message that triggered the interaction
+            deleteTriggerMessage();
+        } catch (Exception e) {
+            logger.debug("Error while attempting to delete messages: {}", e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteTriggerMessage() {
+        try {
             if (event instanceof ButtonInteractionEvent buttonEvent) {
-                buttonEvent.getMessage().delete().queue();
+                buttonEvent.getMessage().delete().queue(
+                    null,
+                    throwable -> logger.debug("Could not delete trigger message: {}", throwable.getMessage())
+                );
             } else if (event instanceof StringSelectInteractionEvent selectEvent) {
-                selectEvent.getMessage().delete().queue();
+                selectEvent.getMessage().delete().queue(
+                    null,
+                    throwable -> logger.debug("Could not delete trigger message: {}", throwable.getMessage())
+                );
             }
         } catch (Exception e) {
-            // Silently ignore if message is already deleted or cannot be deleted
+            logger.debug("Error while attempting to delete trigger message: {}", e.getMessage());
         }
     }
 
@@ -262,7 +291,10 @@ public class JDAInteractionAdapter implements DiscordInteraction {
             editAction.setComponents(); // Clear components
         }
 
-        editAction.queue();
+        editAction.queue(
+            null,
+            throwable -> logger.error("Failed to send edited message: {}", throwable.getMessage())
+        );
     }
 
     private void addComponentsToReply(Object reply, DiscordMessage message) {

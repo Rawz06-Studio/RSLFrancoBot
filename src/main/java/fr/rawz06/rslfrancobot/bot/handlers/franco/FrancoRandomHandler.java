@@ -117,10 +117,23 @@ public class FrancoRandomHandler {
             // Send final result as channel message (persists after cleanup)
             interaction.sendChannelMessage(presenter.presentFrancoSeedResult(result, selectedOptions, interaction.getUsername()));
 
+            // Clear selections in case of error
+            interaction.clearUserData("franco_selections");
+
             // Delete interaction messages to keep channel clean
             interaction.deleteOriginalMessage();
         } catch (SeedService.SeedGenerationException e) {
+            // Clear selections in case of error
+            interaction.clearUserData("franco_selections");
+
             interaction.editDeferredReply(presenter.presentError(e.getMessage()));
+
+            // Delete trigger message only
+            try {
+                interaction.deleteTriggerMessage();
+            } catch (Exception ex) {
+                // Ignore
+            }
         }
     }
 

@@ -458,15 +458,15 @@ precompleted_3:
     shuffle_ganon_bosskey: "dungeons"
     ganon_bosskey_rewards: 9
 
-triforce_hunt:
-  label: "Triforce Hunt"
-  description: "Collect Triforce pieces to win."
-  level: "easy"
-  settings:
-    triforce_hunt: true
-    triforce_goal_per_world: 30
-    triforce_count_per_world: 45
-    shuffle_ganon_bosskey: "triforce"
+#triforce_hunt:
+#  label: "Triforce Hunt"
+#  description: "Collect Triforce pieces to win."
+#  level: "easy"
+#  settings:
+#    triforce_hunt: true
+#    triforce_goal_per_world: 30
+#    triforce_count_per_world: 45
+#    shuffle_ganon_bosskey: "triforce"
 
 reachable_all:
   label: "All Locations Reachable"

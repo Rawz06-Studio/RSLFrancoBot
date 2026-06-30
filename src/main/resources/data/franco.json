@@ -113,7 +113,7 @@
   "shuffle_silver_rupees": "vanilla",
   "silver_rupee_pouches_choice": "off",
   "silver_rupee_pouches": [],
-  "enhance_map_compass": ["map_dungeon_location", "compass_reward"],
+  "enhance_map_compass": ["map_dungeon_location"],
   "reachable_locations": "all",
   "logic_no_night_tokens_without_suns_song": false,
   "disabled_locations": [

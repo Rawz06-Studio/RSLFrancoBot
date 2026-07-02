@@ -16,29 +16,16 @@ jobs:
       NEXUS_LOGIN: ${{ secrets.NEXUS_LOGIN }}
       NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-  sonar:
-    needs: release
-    uses: RawZ06-Studio/.github/.github/workflows/maven-ci-sonar.yml@main
-    with:
-      java_version: '25'
-      sonar_project_key: 'Rawz06-Studio_RSLFrancoBot_af333436-4fc6-4040-842f-a594a39a07dc'
-      sonar_project_name: 'RSLFrancoBot'
-    secrets:
-      NEXUS_LOGIN: ${{ secrets.NEXUS_LOGIN }}
-      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
   docker:
     needs: release
     uses: RawZ06-Studio/.github/.github/workflows/docker-build-push.yml@main
+    permissions:
+      contents: write   # Nécessaire pour les tags/releases
+      packages: write   # Nécessaire pour Docker/Maven/NPM
     with:
       image_name: rslfrancobot
       dokploy_app_id: yz6yBH0MMuChV1NpMPyqB
-    secrets:
-      NEXUS_LOGIN: ${{ secrets.NEXUS_LOGIN }}
-      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      DOKPLOY_TOKEN: ${{ secrets.DOKPLOY_TOKEN }}
+    secrets: inherit
 
   snapshot:
     needs: docker

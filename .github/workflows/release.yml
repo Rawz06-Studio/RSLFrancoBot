@@ -12,9 +12,6 @@ jobs:
       java_version: '25'
     permissions:
       contents: write
-    secrets:
-      NEXUS_LOGIN: ${{ secrets.NEXUS_LOGIN }}
-      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
   docker:
     needs: release

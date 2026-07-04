@@ -47,12 +47,10 @@ public class SeedPresenter {
         List<DiscordButton> rslRow = new ArrayList<>(List.of(
             new DiscordButton("Main (RSL)", "seed_rsl", DiscordButton.Style.PRIMARY),
             new DiscordButton("PoT (RSL)", "seed_pot", DiscordButton.Style.SECONDARY, true),
-            new DiscordButton("Beginner (RSL)", "seed_beginner", DiscordButton.Style.SECONDARY, true)
+            new DiscordButton("Beginner (RSL)", "seed_beginner", DiscordButton.Style.SECONDARY, true),
+            new DiscordButton("RoT (RSL)", "seed_rot", DiscordButton.Style.SUCCESS)
         ));
-
-        if(getUserAvailableGenerateUseCase.available(username, "rot")) {
-            rslRow.add(new DiscordButton("RoT (RSL)", "seed_rot", DiscordButton.Style.SECONDARY));
-        }
+        
         message.addButtonRow(rslRow);
 
         return message;

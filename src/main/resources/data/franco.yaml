@@ -282,7 +282,7 @@ beatable_only:
 
 ocarina_notes_shuffle:
   label: "Ocarina Notes Shuffle"
-  description: "Shuffle individual ocarina notes into item pool
+  description: "Shuffle individual ocarina notes into item pool"
   level: "hard"
   settings:
     shuffle_individual_ocarina_notes: true

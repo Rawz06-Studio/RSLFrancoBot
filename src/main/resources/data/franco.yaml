@@ -280,6 +280,13 @@ beatable_only:
   settings:
     reachable_locations: "beatable"
 
+ocarina_notes_shuffle:
+  label: "Ocarina Notes Shuffle"
+  description: "Shuffle individual ocarina notes into item pool
+  level: "hard"
+  settings:
+    shuffle_individual_ocarina_notes: true
+
 bridge_6_med:
   label: "6 Medallion Bridge"
   description: "Requires 6 medallions to spawn the rainbow bridge."

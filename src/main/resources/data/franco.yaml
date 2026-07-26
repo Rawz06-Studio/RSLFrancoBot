@@ -6,8 +6,8 @@ camc:
     correct_chest_appearances: "off"
 
 start_weird_egg:
-  label: "Start with Weird Egg"
-  description: "Player starts with the Weird Egg and no consumables."
+  label: "Vanilla start & Shuffled Weird Egg"
+  description: "No Free Zelda + Shuffle Weird Egg + Spawn Vanille + No consumables + No Deku Shield (together)"
   level: "easy"
   settings:
     spawn_positions: []

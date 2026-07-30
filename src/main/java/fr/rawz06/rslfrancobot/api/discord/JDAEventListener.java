@@ -3,6 +3,7 @@ package fr.rawz06.rslfrancobot.api.discord;
 import fr.rawz06.rslfrancobot.bot.handlers.*;
 import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErDecoupledButtonHandler;
+import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErNoOWButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityOnlyButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoRandomHandler;
@@ -46,7 +47,7 @@ public class JDAEventListener extends ListenerAdapter {
     private final S9ButtonHandler s9ButtonHandler;
     private final AllsanityErDecoupledButtonHandler allsanityErDecoupledButtonHandler;
     private final AllsanityErButtonHandler allsanityErButtonHandler;
-    private final AllsanityErButtonHandler allsanityErButtonHandler;
+    private final AllsanityErNoOWButtonHandler allsanityErNoOWButtonHandler;
     private final AllsanityOnlyButtonHandler allsanityOnlyButtonHandler;
     private final FrancoValidateHandler francoValidateHandler;
     private final FrancoSelectMenuHandler francoSelectMenuHandler;
@@ -143,7 +144,7 @@ public class JDAEventListener extends ListenerAdapter {
                 case "seed_tot" -> totButtonHandler.handle(interaction);
                 case "seed_mixed" -> mixedPoolButtonHandler.handle(interaction);
                 case "seed_allsanity_er_decoupled" -> allsanityErDecoupledButtonHandler.handle(interaction);
-                case "seed_allsanity_er_noow" -> allsanityErNoowButtonHandler.handle(interaction);
+                case "seed_allsanity_er_noow" -> allsanityErNoOWButtonHandler.handle(interaction);
                 case "seed_allsanity_er" -> allsanityErButtonHandler.handle(interaction);
                 case "seed_allsanity_only" -> allsanityOnlyButtonHandler.handle(interaction);
                 case "seed_salad_enemy" -> saladEnemyButtonHandler.handle(interaction);

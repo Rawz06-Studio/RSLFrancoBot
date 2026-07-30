@@ -49,6 +49,15 @@ public class GenerateAllsanitySeedUseCase {
                 settings.put("decouple_entrances", false);
                 break;
 
+            case ALLSANITY_ER_NOOW:
+                // Set decouple_entrances and shuffle_overworld_entrances to false
+                settings.put("decouple_entrances", false);
+                settings.put("shuffle_overworld_entrances", false);
+                settings.put("shuffle_gerudo_valley_river_exit", false);
+                settings.put("shuffle_gerudo_fortress_heart_piece", "remove");
+                settings.put("shuffle_hideout_entrances", false);
+                break;
+
             case ALLSANITY_ONLY:
                 // Disable all ER settings
                 settings.put("decouple_entrances", false);

@@ -46,6 +46,7 @@ public class JDAEventListener extends ListenerAdapter {
     private final S9ButtonHandler s9ButtonHandler;
     private final AllsanityErDecoupledButtonHandler allsanityErDecoupledButtonHandler;
     private final AllsanityErButtonHandler allsanityErButtonHandler;
+    private final AllsanityErButtonHandler allsanityErButtonHandler;
     private final AllsanityOnlyButtonHandler allsanityOnlyButtonHandler;
     private final FrancoValidateHandler francoValidateHandler;
     private final FrancoSelectMenuHandler francoSelectMenuHandler;
@@ -142,6 +143,7 @@ public class JDAEventListener extends ListenerAdapter {
                 case "seed_tot" -> totButtonHandler.handle(interaction);
                 case "seed_mixed" -> mixedPoolButtonHandler.handle(interaction);
                 case "seed_allsanity_er_decoupled" -> allsanityErDecoupledButtonHandler.handle(interaction);
+                case "seed_allsanity_er_noow" -> allsanityErNoowButtonHandler.handle(interaction);
                 case "seed_allsanity_er" -> allsanityErButtonHandler.handle(interaction);
                 case "seed_allsanity_only" -> allsanityOnlyButtonHandler.handle(interaction);
                 case "seed_salad_enemy" -> saladEnemyButtonHandler.handle(interaction);

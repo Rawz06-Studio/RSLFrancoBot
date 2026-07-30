@@ -49,7 +49,7 @@ public class SeedService {
                 case RSL, POT, BEGINNER, ROT -> generateRSLSeedUseCase.execute(request);
                 case S8 -> generateS8SeedUseCase.execute(request);
                 case S9 -> generateS9SeedUseCase.execute(request);
-                case ALLSANITY_ER_DECOUPLED, ALLSANITY_ER, ALLSANITY_ONLY -> generateAllsanitySeedUseCase.execute(request);
+                case ALLSANITY_ER_DECOUPLED, ALLSANITY_ER, ALLSANITY_ONLY, ALLSANITY_ER_NOOW -> generateAllsanitySeedUseCase.execute(request);
                 case SALAD_NATURE, SALAD_ENEMY, SALAD_RUPEES, SALAD_DUNGEONS, SALAD_SONGS, SALAD_MIX, SALAD_ALL -> generateSaladSeedUseCase.execute(request);
                 case TOT -> generateTotSeedUseCase.execute(request);
                 case MIXED -> generateMixedSeedUseCase.execute(request);

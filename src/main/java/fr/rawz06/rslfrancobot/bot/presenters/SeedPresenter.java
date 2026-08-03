@@ -66,7 +66,7 @@ public class SeedPresenter {
         List<DiscordButton> allsanityRow = List.of(
                 new DiscordButton("Allsanity + ER decoupled", "seed_allsanity_er_decoupled", DiscordButton.Style.SECONDARY),
                 new DiscordButton("Allsanity + ER", "seed_allsanity_er", DiscordButton.Style.SECONDARY),
-                new DiscordButton("Allsanity + ER without OW", "seed_allsanity_er_noow", DiscordButton.Style.SECONDARY),
+//                new DiscordButton("Allsanity + ER without OW", "seed_allsanity_er_noow", DiscordButton.Style.SECONDARY),
                 new DiscordButton("Allsanity only", "seed_allsanity_only", DiscordButton.Style.SECONDARY)
         );
         message.addButtonRow(allsanityRow);

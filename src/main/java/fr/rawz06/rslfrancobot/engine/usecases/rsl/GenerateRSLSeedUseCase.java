@@ -6,7 +6,9 @@ import fr.rawz06.rslfrancobot.engine.domain.ports.RandomizerApi;
 import fr.rawz06.rslfrancobot.engine.domain.ports.RSLScriptRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,6 +66,14 @@ public class GenerateRSLSeedUseCase {
         flatSettings.put("show_seed_info", true);
         flatSettings.put("create_spoiler", true);
         flatSettings.put("password_lock", false);
+
+        //Disable trade sequence to avoid broken seeds
+        flatSettings.put("adult_trade_start", new String[]{
+                "Prescription",
+                "Eyeball Frog",
+                "Eyedrops",
+                "Claim Check"
+        });
 
         SettingsFile finalSettings = new SettingsFile(flatSettings);
 

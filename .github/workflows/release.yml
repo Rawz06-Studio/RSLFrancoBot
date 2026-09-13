@@ -21,7 +21,7 @@ jobs:
       packages: write   # Nécessaire pour Docker/Maven/NPM
     with:
       image_name: rslfrancobot
-      dokploy_app_id: yz6yBH0MMuChV1NpMPyqB
+      dokploy_app_id: S3YJ5AcXUIVrEsjqAdynD
     secrets: inherit
 
   snapshot:

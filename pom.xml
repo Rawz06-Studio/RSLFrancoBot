@@ -31,10 +31,9 @@
 	</properties>
 	<dependencies>
 
-		<!-- ✅ Remplace spring-boot-starter + spring-web séparés -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>

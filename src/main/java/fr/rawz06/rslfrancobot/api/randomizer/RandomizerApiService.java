@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URLEncoder;
 
 /**
  * Service containing all the business logic for Seed Generation API operations.
@@ -34,16 +35,20 @@ public class RandomizerApiService {
      * Format: {apiDomain}/api/seed/{mode}
      */
     public String buildApiUrl(SeedMode mode, SettingsFile settings) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiDomain)
-                .path("/api/seed/")
-                .path(mode.name());
+        StringBuilder url = new StringBuilder(apiDomain);
+        url.append("/api/seed/").append(mode.name());
 
         // Add all settings as query parameters
+        boolean first = true;
         for (var entry : settings.settings().entrySet()) {
-            builder.queryParam(entry.getKey(), entry.getValue());
+            url.append(first ? "?" : "&");
+            url.append(URLEncoder.encode(entry.getKey(), java.nio.charset.StandardCharsets.UTF_8));
+            url.append("=");
+            url.append(URLEncoder.encode(String.valueOf(entry.getValue()), java.nio.charset.StandardCharsets.UTF_8));
+            first = false;
         }
 
-        return builder.toUriString();
+        return url.toString();
     }
 
     /**

@@ -4,26 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents a configuration preset.
- * Contains base settings and user-configurable options.
+ * Represents a preset with base settings and available options.
+ * Used to load Franco preset from YAML configuration.
  */
 public record Preset(
         String name,
         Map<String, Object> baseSettings,
         List<PresetOption> availableOptions
 ) {
-    public Preset {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Preset name cannot be empty");
-        }
-        if (baseSettings == null) {
-            throw new IllegalArgumentException("Base settings cannot be null");
-        }
-    }
-
-    /**
-     * Configurable option within a preset.
-     */
     public record PresetOption(
             String id,
             String label,
@@ -31,14 +19,5 @@ public record Preset(
             String level,
             Map<String, Object> settingsToApply,
             List<String> incompatibleWith
-    ) {
-        public PresetOption {
-            if (id == null || id.isBlank()) {
-                throw new IllegalArgumentException("Option ID cannot be empty");
-            }
-            if (label == null || label.isBlank()) {
-                throw new IllegalArgumentException("Label cannot be empty");
-            }
-        }
-    }
+    ) {}
 }

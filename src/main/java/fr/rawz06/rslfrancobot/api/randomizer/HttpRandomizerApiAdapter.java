@@ -12,17 +12,12 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
-
 /**
- * Real HTTP implementation of the Randomizer API.
- * Calls https://ootrandomizer.com/api/v2/seed/create
- * All business logic is delegated to RandomizerApiService.
- *
- * Active only in the 'prod' profile.
+ * Real HTTP implementation of the Seed Generation API.
+ * Calls the external seed generation API at {apiDomain}/api/seed/{mode}
  */
 @Component
-@ConditionalOnProperty(name = "app.randomizer.api.mode", havingValue = "http", matchIfMissing = true)
+@ConditionalOnProperty(name = "app.seed.api.mode", havingValue = "http", matchIfMissing = false)
 public class HttpRandomizerApiAdapter implements RandomizerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRandomizerApiAdapter.class);
@@ -37,41 +32,38 @@ public class HttpRandomizerApiAdapter implements RandomizerApi {
 
     @Override
     public SeedResult generateSeed(SeedMode mode, SettingsFile settings) throws RandomizerApiException {
-        // 1. Get version for this mode (business logic in service)
-        String version = apiService.getVersionForMode(mode);
-
-        // 2. Log settings (business logic in service)
-        apiService.logSettings(mode, version, settings);
+        // 1. Log settings (business logic in service)
+        apiService.logSettings(mode, settings);
 
         try {
-            // 3. Build URL with query parameters (business logic in service)
-            String url = apiService.buildApiUrl(version);
+            // 2. Build URL with query parameters (business logic in service)
+            String url = apiService.buildApiUrl(mode, settings);
 
-            // 4. Prepare HTTP request (HTTP-specific logic only)
+            // 3. Prepare HTTP request (HTTP-specific logic only)
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(settings.settings(), headers);
+            HttpEntity<Void> request = new HttpEntity<>(headers);
 
-            // 5. Send POST request (HTTP-specific logic only)
-            logger.info("Calling API: POST https://ootrandomizer.com/api/v2/seed/create");
+            // 4. Send GET request (HTTP-specific logic only)
+            logger.info("Calling Seed Generation API: GET {}", url);
             ResponseEntity<ApiResponse> response = restTemplate.exchange(
                     url,
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     ApiResponse.class
             );
 
-            // 6. Validate response (HTTP-specific logic only)
+            // 5. Validate response (HTTP-specific logic only)
             if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
                 throw new RandomizerApiException("API returned status: " + response.getStatusCode());
             }
 
-            // 7. Build SeedResult (business logic in service)
+            // 6. Build SeedResult (business logic in service)
             ApiResponse apiResponse = response.getBody();
             return apiService.buildSeedResult(apiResponse, settings);
 
         } catch (Exception e) {
-            logger.error("Error calling randomizer API", e);
+            logger.error("Error calling seed generation API", e);
             throw new RandomizerApiException("Failed to generate seed: " + e.getMessage(), e);
         }
     }

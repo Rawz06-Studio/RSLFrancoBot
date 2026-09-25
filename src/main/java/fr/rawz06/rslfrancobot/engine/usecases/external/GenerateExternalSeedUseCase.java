@@ -1,6 +1,5 @@
 package fr.rawz06.rslfrancobot.engine.usecases.external;
 
-import fr.rawz06.rslfrancobot.config.GeneratorVersionsConfig;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedRequest;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedResult;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SettingsFile;
@@ -19,14 +18,11 @@ import java.util.Map;
 public class GenerateExternalSeedUseCase {
 
     private final RandomizerApi randomizerApi;
-    private final GeneratorVersionsConfig versionsConfig;
 
     public GenerateExternalSeedUseCase(
-            RandomizerApi randomizerApi,
-            GeneratorVersionsConfig versionsConfig
+            RandomizerApi randomizerApi
     ) {
         this.randomizerApi = randomizerApi;
-        this.versionsConfig = versionsConfig;
     }
 
     /**

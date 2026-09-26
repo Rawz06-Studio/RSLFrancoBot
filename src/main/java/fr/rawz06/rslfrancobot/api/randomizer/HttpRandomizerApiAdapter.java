@@ -5,73 +5,85 @@ import fr.rawz06.rslfrancobot.engine.domain.entities.SeedMode;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedResult;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SettingsFile;
 import fr.rawz06.rslfrancobot.engine.domain.ports.RandomizerApi;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Map;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Real HTTP implementation of the Randomizer API.
- * Calls https://ootrandomizer.com/api/v2/seed/create
- * All business logic is delegated to RandomizerApiService.
- *
- * Active only in the 'prod' profile.
+ * Real HTTP implementation of the Seed Generation API.
+ * Calls the external seed generation API at {apiDomain}/api/seed/{mode}
  */
 @Component
-@ConditionalOnProperty(name = "app.randomizer.api.mode", havingValue = "http", matchIfMissing = true)
+@ConditionalOnProperty(name = "app.seed.api.mode", havingValue = "http", matchIfMissing = false)
 public class HttpRandomizerApiAdapter implements RandomizerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRandomizerApiAdapter.class);
 
-    private final RestTemplate restTemplate;
     private final RandomizerApiService apiService;
+    private final ObjectMapper objectMapper;
+    private final HttpClient httpClient;
 
-    public HttpRandomizerApiAdapter(RandomizerApiService apiService) {
+    public HttpRandomizerApiAdapter(RandomizerApiService apiService, ObjectMapper objectMapper) {
         this.apiService = apiService;
-        this.restTemplate = new RestTemplate();
+        this.objectMapper = objectMapper;
+        this.httpClient = HttpClients.createDefault();
     }
 
     @Override
     public SeedResult generateSeed(SeedMode mode, SettingsFile settings) throws RandomizerApiException {
-        // 1. Get version for this mode (business logic in service)
-        String version = apiService.getVersionForMode(mode);
-
-        // 2. Log settings (business logic in service)
-        apiService.logSettings(mode, version, settings);
+        // 1. Log settings (business logic in service)
+        apiService.logSettings(mode, settings);
 
         try {
-            // 3. Build URL with query parameters (business logic in service)
-            String url = apiService.buildApiUrl(version);
+            // 2. Build URL with query parameters (business logic in service)
+            String url = apiService.buildApiUrl(mode, settings);
 
-            // 4. Prepare HTTP request (HTTP-specific logic only)
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(settings.settings(), headers);
+            // 3. Create GET request (HTTP-specific logic only)
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("Content-Type", "application/json");
 
-            // 5. Send POST request (HTTP-specific logic only)
-            logger.info("Calling API: POST https://ootrandomizer.com/api/v2/seed/create");
-            ResponseEntity<ApiResponse> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.POST,
-                    request,
-                    ApiResponse.class
-            );
+            // 4. Send GET request with response handler (HTTP-specific logic only)
+            logger.info("Calling Seed Generation API: GET {}", url);
+            String responseBody = httpClient.execute(httpGet, (HttpClientResponseHandler<String>) response -> {
+                if (response.getCode() != HttpStatus.SC_OK) {
+                    throw new RuntimeException(new RandomizerApiException("API returned status: " + response.getCode()));
+                }
+                try {
+                    return new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
-            // 6. Validate response (HTTP-specific logic only)
-            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-                throw new RandomizerApiException("API returned status: " + response.getStatusCode());
+            // 5. Parse response body
+            ApiResponse apiResponse = objectMapper.readValue(responseBody, ApiResponse.class);
+
+            if (apiResponse == null) {
+                throw new RandomizerApiException("API returned empty response");
             }
 
             // 7. Build SeedResult (business logic in service)
-            ApiResponse apiResponse = response.getBody();
             return apiService.buildSeedResult(apiResponse, settings);
 
-        } catch (Exception e) {
-            logger.error("Error calling randomizer API", e);
+        } catch (IOException e) {
+            logger.error("Error calling seed generation API", e);
+            throw new RandomizerApiException("Failed to generate seed: " + e.getMessage(), e);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof RandomizerApiException) {
+                throw (RandomizerApiException) e.getCause();
+            }
+            logger.error("Error calling seed generation API", e);
             throw new RandomizerApiException("Failed to generate seed: " + e.getMessage(), e);
         }
     }

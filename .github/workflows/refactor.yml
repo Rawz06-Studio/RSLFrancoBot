@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - refactor
+
+jobs:
+  docker:
+    uses: RawZ06-Studio/.github/.github/workflows/docker-build-push.yml@main
+    permissions:
+      contents: write   # Nécessaire pour les tags/releases
+      packages: write   # Nécessaire pour Docker/Maven/NPM
+    with:
+      image_name: rslfrancobot-refactor
+      dokploy_app_id: S3YJ5AcXUIVrEsjqAdynD
+    secrets: inherit
+
+  snapshot:
+    needs: docker
+    uses: RawZ06-Studio/.github/.github/workflows/maven-ci-snapshot.yml@main
+    with:
+      java_version: '25'
+    permissions:
+      contents: write

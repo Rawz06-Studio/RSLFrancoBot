@@ -1,4 +1,4 @@
-package fr.rawz06.rslfrancobot.engine.usecases.franco;
+package fr.rawz06.rslfrancobot.engine.usecases.external;
 
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedRequest;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedResult;
@@ -10,22 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Use Case: Generates a seed in Franco mode.
- * Sends parameters directly to external API as query parameters.
- * No local validation or settings transformation needed.
+ * Use Case: Generates a seed via external API.
+ * Used for all modes except Franco (S8, S9, RSL, Salad, etc.)
+ * Settings are passed directly to the external API without any local processing.
  */
 @Component
-public class GenerateFrancoSeedUseCase {
+public class GenerateExternalSeedUseCase {
 
     private final RandomizerApi randomizerApi;
 
-    public GenerateFrancoSeedUseCase(RandomizerApi randomizerApi) {
+    public GenerateExternalSeedUseCase(
+            RandomizerApi randomizerApi
+    ) {
         this.randomizerApi = randomizerApi;
     }
 
     /**
-     * Generates a Franco seed by sending settings directly to external API.
-     * Settings are passed as query parameters.
+     * Generates a seed via the external API.
+     * The external API handles all seed generation logic.
+     * @param request Contains mode and settings
+     * @return Result containing seed URL and metadata
      */
     public SeedResult execute(SeedRequest request) throws GenerationException {
         try {
@@ -33,7 +37,7 @@ public class GenerateFrancoSeedUseCase {
             SettingsFile settingsFile = new SettingsFile(settings);
             return randomizerApi.generateSeed(request.mode(), settingsFile);
         } catch (RandomizerApi.RandomizerApiException e) {
-            throw new GenerationException("Error during Franco seed generation", e);
+            throw new GenerationException("Error during seed generation via external API", e);
         }
     }
 

@@ -1,20 +1,11 @@
 package fr.rawz06.rslfrancobot.api.discord;
 
 import fr.rawz06.rslfrancobot.bot.handlers.*;
-import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErDecoupledButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityErNoOWButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.allsanity.AllsanityOnlyButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoButtonHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoRandomHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoSelectMenuHandler;
 import fr.rawz06.rslfrancobot.bot.handlers.franco.FrancoValidateHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.rsl.*;
-import fr.rawz06.rslfrancobot.bot.handlers.salad.*;
-import fr.rawz06.rslfrancobot.bot.handlers.std.MixedPoolButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.std.S8ButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.std.S9ButtonHandler;
-import fr.rawz06.rslfrancobot.bot.handlers.std.TotButtonHandler;
+import fr.rawz06.rslfrancobot.engine.domain.entities.SeedMode;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -39,28 +30,10 @@ public class JDAEventListener extends ListenerAdapter {
     private final AllCommandHandler allCommandHandler;
     private final InfoCommandHandler infoCommandHandler;
     private final FrancoButtonHandler francoButtonHandler;
-    private final RSLButtonHandler rslButtonHandler;
-    private final PoTButtonHandler potButtonHandler;
-    private final BeginnerButtonHandler beginnerButtonHandler;
-    private final RoTButtonHandler roTButtonHandler;
-    private final S8ButtonHandler s8ButtonHandler;
-    private final S9ButtonHandler s9ButtonHandler;
-    private final AllsanityErDecoupledButtonHandler allsanityErDecoupledButtonHandler;
-    private final AllsanityErButtonHandler allsanityErButtonHandler;
-    private final AllsanityErNoOWButtonHandler allsanityErNoOWButtonHandler;
-    private final AllsanityOnlyButtonHandler allsanityOnlyButtonHandler;
+    private final StandardSeedButtonHandler standardSeedButtonHandler;
     private final FrancoValidateHandler francoValidateHandler;
     private final FrancoSelectMenuHandler francoSelectMenuHandler;
     private final FrancoRandomHandler francoRandomHandler;
-    private final SaladNatureButtonHandler saladNatureButtonHandler;
-    private final SaladEnemyButtonHandler saladEnemyButtonHandler;
-    private final SaladRupeeButtonHandler saladRupeeButtonHandler;
-    private final SaladDungeonButtonHandler saladDungeonButtonHandler;
-    private final SaladSongsButtonHandler saladSongsButtonHandler;
-    private final SaladMixButtonHandler saladMixButtonHandler;
-    private final SaladAllButtonHandler saladAllButtonHandler;
-    private final TotButtonHandler totButtonHandler;
-    private final MixedPoolButtonHandler mixedPoolButtonHandler;
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -135,25 +108,25 @@ public class JDAEventListener extends ListenerAdapter {
 
             switch (buttonId) {
                 case "seed_franco" -> francoButtonHandler.handle(interaction);
-                case "seed_rsl" -> rslButtonHandler.handle(interaction);
-                case "seed_pot" -> potButtonHandler.handle(interaction);
-                case "seed_beginner" -> beginnerButtonHandler.handle(interaction);
-                case "seed_rot" -> roTButtonHandler.handle(interaction);
-                case "seed_s8" -> s8ButtonHandler.handle(interaction);
-                case "seed_s9" -> s9ButtonHandler.handle(interaction);
-                case "seed_tot" -> totButtonHandler.handle(interaction);
-                case "seed_mixed" -> mixedPoolButtonHandler.handle(interaction);
-                case "seed_allsanity_er_decoupled" -> allsanityErDecoupledButtonHandler.handle(interaction);
-                case "seed_allsanity_er_noow" -> allsanityErNoOWButtonHandler.handle(interaction);
-                case "seed_allsanity_er" -> allsanityErButtonHandler.handle(interaction);
-                case "seed_allsanity_only" -> allsanityOnlyButtonHandler.handle(interaction);
-                case "seed_salad_enemy" -> saladEnemyButtonHandler.handle(interaction);
-                case "seed_salad_nature" -> saladNatureButtonHandler.handle(interaction);
-                case "seed_salad_rupee" -> saladRupeeButtonHandler.handle(interaction);
-                case "seed_salad_songs" -> saladSongsButtonHandler.handle(interaction);
-                case "seed_salad_dungeon" -> saladDungeonButtonHandler.handle(interaction);
-                case "seed_salad_mix" -> saladMixButtonHandler.handle(interaction);
-                case "seed_salad_all" -> saladAllButtonHandler.handle(interaction);
+                case "seed_rsl" -> standardSeedButtonHandler.handle(interaction, SeedMode.RSL, "RSL");
+                case "seed_pot" -> standardSeedButtonHandler.handle(interaction, SeedMode.POT, "PoT");
+                case "seed_beginner" -> standardSeedButtonHandler.handle(interaction, SeedMode.BEGINNER, "Beginner");
+                case "seed_rot" -> standardSeedButtonHandler.handle(interaction, SeedMode.ROT, "RoT");
+                case "seed_s8" -> standardSeedButtonHandler.handle(interaction, SeedMode.S8, "S8");
+                case "seed_s9" -> standardSeedButtonHandler.handle(interaction, SeedMode.S9, "S9");
+                case "seed_tot" -> standardSeedButtonHandler.handle(interaction, SeedMode.TOT, "ToT");
+                case "seed_mixed" -> standardSeedButtonHandler.handle(interaction, SeedMode.MIXED, "Mixed Pool S5");
+                case "seed_allsanity_er_decoupled" -> standardSeedButtonHandler.handle(interaction, SeedMode.ALLSANITY_ER_DECOUPLED, "Allsanity + ER decoupled");
+                case "seed_allsanity_er_noow" -> standardSeedButtonHandler.handle(interaction, SeedMode.ALLSANITY_ER_NOOW, "Allsanity + ER without OW");
+                case "seed_allsanity_er" -> standardSeedButtonHandler.handle(interaction, SeedMode.ALLSANITY_ER, "Allsanity + ER");
+                case "seed_allsanity_only" -> standardSeedButtonHandler.handle(interaction, SeedMode.ALLSANITY_ONLY, "Allsanity only");
+                case "seed_salad_enemy" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_ENEMY, "Monstre en folie");
+                case "seed_salad_nature" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_NATURE, "Nature en folie");
+                case "seed_salad_rupee" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_RUPEES, "Rubis en folie");
+                case "seed_salad_songs" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_SONGS, "Chansons en folie");
+                case "seed_salad_dungeon" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_DUNGEONS, "Donjon en folie");
+                case "seed_salad_mix" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_MIX, "Mélange en folie");
+                case "seed_salad_all" -> standardSeedButtonHandler.handle(interaction, SeedMode.SALAD_ALL, "Salade complète");
                 case "franco_validate" -> francoValidateHandler.handle(interaction);
                 case "franco_random" -> francoRandomHandler.handle(interaction);
                 case "franco_cancel" -> event.reply("Generation cancelled.").setEphemeral(true).queue();

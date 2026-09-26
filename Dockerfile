@@ -12,7 +12,7 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime image with Java + Python
+# Stage 2: Runtime image with Java only
 FROM eclipse-temurin:25-jre-alpine
 
 WORKDIR /app
@@ -21,25 +21,6 @@ WORKDIR /app
 RUN apk add --no-cache \
     git \
     curl
-
-# uv + Python 3.14 (installed system-wide, accessible to all users)
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
-
-ENV UV_PYTHON_INSTALL_DIR=/opt/python \
-    UV_PYTHON_BIN_DIR=/usr/local/bin
-
-RUN uv python install 3.14 --default --preview \
-    && uv pip install --system --break-system-packages requests
-
-# Clone plando-random-settings at specific commit
-RUN git clone https://github.com/matthewkirby/plando-random-settings.git ./plando-random-settings \
-    && git -C plando-random-settings checkout 240cdc5
-
-# Copy custom weight files
-COPY weights/ ./plando-random-settings/weights/
-
-# Copy data directory (preset definitions)
-COPY src/main/resources/data/ ./data/
 
 # Copy built JAR from builder stage
 COPY --from=builder /app/target/*.jar ./app.jar
@@ -56,7 +37,7 @@ EXPOSE 8080
 
 # Set environment variables (override via docker-compose or -e flags)
 ENV DISCORD_TOKEN="" \
-    RANDOMIZER_API_KEY="" \
+    SEED_API_DOMAIN="https://api.randomizer.example.com" \
     JAVA_OPTS="-Xmx512m -Xms256m" \
     SPRING_PROFILES_ACTIVE="prod"
 

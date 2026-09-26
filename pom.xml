@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>fr.rawz06</groupId>
 	<artifactId>rslfrancobot</artifactId>
-	<version>2.1.24-SNAPSHOT</version>
+	<version>3.0.3-SNAPSHOT</version>
 	<name>RSLFrancoBot</name>
 	<description>RSL and Franco Discord bot</description>
 	<url/>
@@ -31,10 +31,9 @@
 	</properties>
 	<dependencies>
 
-		<!-- ✅ Remplace spring-boot-starter + spring-web séparés -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -61,6 +60,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>2.22.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>2.22.2</version>
 		</dependency>
 

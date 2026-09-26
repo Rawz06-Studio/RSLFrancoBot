@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * Mock implementation of the Randomizer API.
+ * Mock implementation of the Seed Generation API.
  * Simulates seed generation without calling the real API.
  * Uses the same business logic as HttpRandomizerApiAdapter via RandomizerApiService.
  *
- * Active only in 'dev' and 'local' profiles.
+ * Active only in 'dev' profile.
  */
 @Component
-@ConditionalOnProperty(name = "app.randomizer.api.mode", havingValue = "mock")
+@ConditionalOnProperty(name = "app.seed.api.mode", havingValue = "mock")
 public class MockRandomizerApiAdapter implements RandomizerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MockRandomizerApiAdapter.class);
@@ -36,16 +36,13 @@ public class MockRandomizerApiAdapter implements RandomizerApi {
 
     @Override
     public SeedResult generateSeed(SeedMode mode, SettingsFile settings) throws RandomizerApiException {
-        // 1. Get version for this mode (same business logic as HTTP adapter)
-        String version = apiService.getVersionForMode(mode);
-
-        // 2. Display settings in formatted JSON for verification (INFO level for Mock)
+        // 1. Display settings in formatted JSON for verification
         try {
             String jsonSettings = objectMapper.writerWithDefaultPrettyPrinter()
                     .writeValueAsString(settings.settings());
 
             System.out.println("\n" + "=".repeat(80));
-            System.out.println("📋 SETTINGS SENT TO RANDOMIZER API (MOCK)");
+            System.out.println("📋 SETTINGS SENT TO SEED GENERATION API (MOCK)");
             System.out.println("=".repeat(80));
             System.out.println(jsonSettings);
             System.out.println("=".repeat(80) + "\n");
@@ -55,21 +52,22 @@ public class MockRandomizerApiAdapter implements RandomizerApi {
             logger.error("Error serializing settings", e);
         }
 
-        // 3. Simulate realistic network delay (5 seconds like a real HTTP call)
+        // 2. Simulate realistic network delay (2 seconds)
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RandomizerApiException("Generation interrupted", e);
         }
 
-        // 4. Create fake API response (simulating what the real API would return)
-        String mockId = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        ApiResponse mockResponse = new ApiResponse(mockId, version, true);
+        // 3. Create fake API response
+        String mockSeedId = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        String mockSeedUrl = "https://ootrandomizer.com/seed/get?id=" + mockSeedId;
+        ApiResponse mockResponse = new ApiResponse(mockSeedUrl, "mock-version", true);
 
-        logger.info("MOCK: Simulating API response with id={}", mockId);
+        logger.info("MOCK: Simulating API response with seedUrl={}", mockSeedUrl);
 
-        // 5. Build SeedResult (same business logic as HTTP adapter)
+        // 4. Build SeedResult
         return apiService.buildSeedResult(mockResponse, settings);
     }
 }

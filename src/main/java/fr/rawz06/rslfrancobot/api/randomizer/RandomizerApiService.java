@@ -1,5 +1,6 @@
 package fr.rawz06.rslfrancobot.api.randomizer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedMode;
 import fr.rawz06.rslfrancobot.engine.domain.entities.SeedResult;
@@ -83,6 +84,7 @@ public class RandomizerApiService {
     /**
      * DTO representing the API response structure
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ApiResponse {
         public String seedUrl;
         public String version;

@@ -10,6 +10,7 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -52,17 +53,16 @@ public class HttpRandomizerApiAdapter implements RandomizerApi {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader("Content-Type", "application/json");
 
-            // 4. Send GET request (HTTP-specific logic only)
+            // 4. Send GET request with response handler (HTTP-specific logic only)
             logger.info("Calling Seed Generation API: GET {}", url);
-            ClassicHttpResponse response = httpClient.execute(httpGet, classicHttpResponse -> classicHttpResponse);
+            String responseBody = httpClient.execute(httpGet, (HttpClientResponseHandler<String>) response -> {
+                if (response.getCode() != HttpStatus.SC_OK) {
+                    throw new RandomizerApiException("API returned status: " + response.getCode());
+                }
+                return new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+            });
 
-            // 5. Validate response (HTTP-specific logic only)
-            if (response.getCode() != HttpStatus.SC_OK) {
-                throw new RandomizerApiException("API returned status: " + response.getCode());
-            }
-
-            // 6. Parse response body
-            String responseBody = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+            // 5. Parse response body
             ApiResponse apiResponse = objectMapper.readValue(responseBody, ApiResponse.class);
 
             if (apiResponse == null) {

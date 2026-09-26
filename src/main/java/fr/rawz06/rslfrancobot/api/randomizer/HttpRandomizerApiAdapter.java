@@ -57,9 +57,13 @@ public class HttpRandomizerApiAdapter implements RandomizerApi {
             logger.info("Calling Seed Generation API: GET {}", url);
             String responseBody = httpClient.execute(httpGet, (HttpClientResponseHandler<String>) response -> {
                 if (response.getCode() != HttpStatus.SC_OK) {
-                    throw new RandomizerApiException("API returned status: " + response.getCode());
+                    throw new RuntimeException(new RandomizerApiException("API returned status: " + response.getCode()));
                 }
-                return new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+                try {
+                    return new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
             // 5. Parse response body
@@ -73,6 +77,12 @@ public class HttpRandomizerApiAdapter implements RandomizerApi {
             return apiService.buildSeedResult(apiResponse, settings);
 
         } catch (IOException e) {
+            logger.error("Error calling seed generation API", e);
+            throw new RandomizerApiException("Failed to generate seed: " + e.getMessage(), e);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof RandomizerApiException) {
+                throw (RandomizerApiException) e.getCause();
+            }
             logger.error("Error calling seed generation API", e);
             throw new RandomizerApiException("Failed to generate seed: " + e.getMessage(), e);
         }
